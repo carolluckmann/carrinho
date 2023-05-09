@@ -197,10 +197,6 @@ nav li a {
   text-decoration: none;
 }
 
-nav li a:hover {
-  background-color: var(--cor2);
-}
-
 nav > ul {
   gap: 50px;
   list-style-type: none;
