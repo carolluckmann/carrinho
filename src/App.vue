@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 const mostrarDiv = ref(false)
 
-const produtos = [
+const produtos = ref([
   {
     id: 1,
     nome: 'Camiseta',
@@ -67,18 +67,18 @@ const produtos = [
     quant: 1,
     img: 'https://cf.shopee.com.br/file/4d10a84d16bd3f594cb5bf5fe33fef4d'
   }
-]
+])
 
 const carrinho = ref({
   items: [],
   valorTotal: 0
 })
 
-function adiciona(pos) {
+function adicionar(pos) {
   produtos.value[pos].quant++
 }
 
-function remove(pos) {
+function remover(pos) {
   if (produtos.value[pos].quant > 1) {
     produtos.value[pos].quant--
   }
@@ -92,38 +92,39 @@ function adcCarrinho(i) {
 </script>
 
 <template>
-      <header>
-    <nav>
-        <img class="logo" src="https://logodetimes.com/times/corinthians/logo-do-corinthians-4096.png">
+  <form @submit.prevent="mostrarDiv = !mostrarDiv">
+    <header>
+      <nav>
+        <img
+          class="logo"
+          src="https://logodetimes.com/times/corinthians/logo-do-corinthians-4096.png"
+        />
         <h1 class="titulo">Loja do Timão</h1>
         <ul class="menu">
-        <li><a href="">Home</a></li>
-        <li><a href="">Novidades</a></li>
-        <li><a href="">Contato</a></li>
-        <li><a href="">Sobre nós</a></li>
-      </ul>
-    </nav>
-  </header>
-<div>
-    
-</div>
-<div class="produtos" id="container">
-    <div v-for="(produto, i) in produtos" :key="i" class="card-produtos">
-      <h2>{{ produto.nome }}</h2>
-      <img :src="produto.img" />
-      <p>R$ {{ produto.preco.toFixed(2).replace('.', ',') }}</p>
-      <p>Quantidade: {{ produto.quant }}</p>
-      <div class="botes">
-        <button @click="adiciona(i)">+</button>
-        <button @click="remove(i)">-</button>
-        <button @click="adcCarrinho(i)">Adicionar ao carrinho</button>
+          <li><a href="">Home</a></li>
+          <li><a href="">Novidades</a></li>
+          <li><a href="">Contato</a></li>
+          <li><button type="submit" class="carrinho">Carrinho</button></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="produtos" id="container">
+      <div v-for="(produto, i) in produtos" :key="i" class="card-produtos">
+        <h2>{{ produto.nome }}</h2>
+        <img :src="produto.img" />
+        <p>R$ {{ produto.preco.toFixed(2).replace('.', ',') }}</p>
+        <p>Quantidade: {{ produto.quant }}</p>
+        <div class="botes">
+          <button @click="adicionar(i)">+</button>
+          <button @click="remover(i)">-</button>
+          <button @click="adcCarrinho(i)">Adicionar ao carrinho</button>
+        </div>
       </div>
     </div>
-  </div>
-  <button> Seu carrinho </button>
-  <div class="aparece" v-if="mostrarDiv">
-    <h1>Seu carrinho</h1>
-  </div>
+    <div class="aparece" v-if="mostrarDiv">
+      <h1>Seu carrinho</h1>
+    </div>
+  </form>
 </template>
 
 <style scoped>
@@ -156,7 +157,7 @@ function adcCarrinho(i) {
   grid: repeat(3, 400px) / auto-flow 350px;
 }
 
-button{
+button {
   border: 0;
   margin: 2px 2px;
   border-radius: 5px;
@@ -165,10 +166,9 @@ button{
   background-color: rgb(224, 223, 223);
   font-weight: bold;
   font-size: 1em;
-  margin-top: 0px;
 }
 
-button:hover{
+button:hover {
   background-color: rgb(78, 78, 78);
   color: white;
 }
@@ -179,10 +179,10 @@ p {
 }
 
 nav {
-    display: flex;
-    justify-content: space-between;
-    font-size: 1.5rem;
-    padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  padding: 10px;
 }
 
 nav li {
@@ -191,29 +191,35 @@ nav li {
 
 nav li a {
   display: block;
-  font-family:'Times New Roman', Times, serif;
-  color:black;
+  font-family: 'Times New Roman', Times, serif;
+  color: black;
   padding: 16px 16px;
   text-decoration: none;
 }
 
 nav > ul {
-  gap: 50px;
   list-style-type: none;
-  margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: var(--cor3);
 }
 
-.logo{
-    margin: 0;
-    padding: 0;
-    width: 5%;
+.logo {
+  margin: 0;
+  padding: 0;
+  width: 6%;
+  height: 5%;
 }
-.titulo{
-    margin-right: 1050px;
-    font-size: 2rem;
-    font-family: 'Times New Roman', Times, serif;
+.titulo {
+  margin-right: 50%;
+  font-size: 2rem;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.carrinho{
+  display: block;
+  font-family: 'Times New Roman', Times, serif;
+  color: black;
+  padding: 16px 16px;
+  text-decoration: none;
 }
 </style>
