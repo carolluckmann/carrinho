@@ -89,25 +89,30 @@ function adcCarrinho(i) {
   carrinho.value.items.push({ ...produto, total: produto.preco * produto.quant })
   carrinho.value.valorTotal += produto.preco * produto.quant
 }
+
+function removerDoCarrinho(i) {
+  carrinho.value.items.splice(i, 1)
+}
+
 </script>
 
 <template>
-  <form @submit.prevent="mostrarDiv = !mostrarDiv">
-    <header>
-      <nav>
-        <img
-          class="logo"
-          src="https://logodetimes.com/times/corinthians/logo-do-corinthians-4096.png"
-        />
-        <h1 class="titulo">Loja do Timão</h1>
-        <ul class="menu">
-          <li><a href="">Home</a></li>
-          <li><a href="">Novidades</a></li>
-          <li><a href="">Contato</a></li>
-          <li><button type="submit" class="carrinho">Carrinho</button></li>
-        </ul>
-      </nav>
-    </header>
+  <header>
+    <nav>
+      <img
+        class="logo"
+        src="https://logodetimes.com/times/corinthians/logo-do-corinthians-4096.png"
+      />
+      <h1 class="titulo">Loja do Timão</h1>
+      <ul class="menu">
+        <li><a href="">Home</a></li>
+        <li><a href="">Novidades</a></li>
+        <li><a href="">Contato</a></li>
+        <li><button @click="mostrarDiv = !mostrarDiv" class="botaoCarrinho">Carrinho</button></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="flex">
     <div class="produtos" id="container">
       <div v-for="(produto, i) in produtos" :key="i" class="card-produtos">
         <h2>{{ produto.nome }}</h2>
@@ -121,13 +126,24 @@ function adcCarrinho(i) {
         </div>
       </div>
     </div>
-    <div class="aparece" v-if="mostrarDiv">
+    <div class="carrinho" v-if="(mostrarDiv = mostrarDiv)">
       <h1>Seu carrinho</h1>
+      <ul>
+        <li v-for="(item, i) in carrinho.items" :key="item.id">
+          Quantidade: {{ item.quant }} <p>Produto: {{ item.nome }}: R${{ item.preco }} </p><button @click="removerDoCarrinho(i)">remover</button>
+        </li>
+      </ul>
+      R${{ carrinho.valorTotal.toFixed(2) }}
     </div>
-  </form>
+  </div>
 </template>
 
 <style scoped>
+.flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
 .card-produtos {
   width: 70%;
   margin: 10px;
@@ -139,8 +155,13 @@ function adcCarrinho(i) {
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: all 0.3s;
 }
 
+.card-produtos:hover {
+  transition: 0.3s;
+  transform: scale(1.1);
+}
 .card-produtos > img {
   width: 70%;
 }
@@ -203,6 +224,9 @@ nav > ul {
   overflow: hidden;
 }
 
+li {
+  list-style-type: none;
+}
 .logo {
   margin: 0;
   padding: 0;
@@ -215,11 +239,18 @@ nav > ul {
   font-family: 'Times New Roman', Times, serif;
 }
 
-.carrinho{
+.botaoCarrinho {
   display: block;
   font-family: 'Times New Roman', Times, serif;
   color: black;
   padding: 16px 16px;
   text-decoration: none;
+}
+.carrinho {
+  margin: 10px 10px;
+  padding: 10px 10px;
+  max-width: 250px;
+  font-style: normal;
+  align-content: end;
 }
 </style>
