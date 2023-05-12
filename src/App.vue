@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 
 const mostrarDiv = ref(false)
 
@@ -100,14 +100,12 @@ function limparCarrinho() {
   totalCarrinho()
 }
 
-
-  function totalCarrinho(){
-    carrinho.value.valorTotal = 0
-    for (let item of carrinho.value.items){
-      carrinho.value.valorTotal += item.quant * item.preco
-    }
+function totalCarrinho() {
+  carrinho.value.valorTotal = 0
+  for (let item of carrinho.value.items) {
+    carrinho.value.valorTotal += item.quant * item.preco
   }
-
+}
 </script>
 
 <template>
@@ -133,7 +131,9 @@ function limparCarrinho() {
         <img :src="produto.img" />
         <p>R$ {{ produto.preco.toFixed(2).replace('.', ',') }}</p>
         <p>Quantidade: {{ produto.quant }}</p>
-        <div>
+        <div class="botes">
+          <button @click="adicionar(i)">+</button>
+          <button @click="remover(i)">-</button>
           <button @click="adcCarrinho(i)">Adicionar ao carrinho</button>
         </div>
       </div>
@@ -144,8 +144,6 @@ function limparCarrinho() {
         <li v-for="(item, i) in carrinho.items" :key="item.id">
           Quantidade: {{ item.quant }}
           <p>Produto: {{ item.nome }}: R${{ item.preco }}</p>
-          <button @click="adicionar(i)">+</button>
-          <button @click="remover(i)">-</button>
           <button @click="removerDoCarrinho(i)">remover</button>
         </li>
       </ul>
@@ -264,10 +262,14 @@ li {
   text-decoration: none;
 }
 .carrinho {
+  border: 2px black;
+  border-radius: 25px 0 25px 25px;
+  box-shadow: rgba(50, 50, 93, 0.25) 3px 2px 5px 3px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   margin: 10px 10px;
   padding: 10px 10px;
-  max-width: 250px;
+  width: 350px;
   font-style: normal;
   align-content: end;
+  height: 500px;
 }
 </style>
