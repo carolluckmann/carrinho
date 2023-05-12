@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const mostrarDiv = ref(false)
 
@@ -92,7 +92,21 @@ function adcCarrinho(i) {
 
 function removerDoCarrinho(i) {
   carrinho.value.items.splice(i, 1)
+  totalCarrinho()
 }
+
+function limparCarrinho() {
+  carrinho.value.items = []
+  totalCarrinho()
+}
+
+
+  function totalCarrinho(){
+    carrinho.value.valorTotal = 0
+    for (let item of carrinho.value.items){
+      carrinho.value.valorTotal += item.quant * item.preco
+    }
+  }
 
 </script>
 
@@ -119,9 +133,7 @@ function removerDoCarrinho(i) {
         <img :src="produto.img" />
         <p>R$ {{ produto.preco.toFixed(2).replace('.', ',') }}</p>
         <p>Quantidade: {{ produto.quant }}</p>
-        <div class="botes">
-          <button @click="adicionar(i)">+</button>
-          <button @click="remover(i)">-</button>
+        <div>
           <button @click="adcCarrinho(i)">Adicionar ao carrinho</button>
         </div>
       </div>
@@ -130,10 +142,15 @@ function removerDoCarrinho(i) {
       <h1>Seu carrinho</h1>
       <ul>
         <li v-for="(item, i) in carrinho.items" :key="item.id">
-          Quantidade: {{ item.quant }} <p>Produto: {{ item.nome }}: R${{ item.preco }} </p><button @click="removerDoCarrinho(i)">remover</button>
+          Quantidade: {{ item.quant }}
+          <p>Produto: {{ item.nome }}: R${{ item.preco }}</p>
+          <button @click="adicionar(i)">+</button>
+          <button @click="remover(i)">-</button>
+          <button @click="removerDoCarrinho(i)">remover</button>
         </li>
       </ul>
       R${{ carrinho.valorTotal.toFixed(2) }}
+      <button @click="limparCarrinho()">Limpar carrinho</button>
     </div>
   </div>
 </template>
