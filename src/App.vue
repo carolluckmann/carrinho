@@ -131,7 +131,7 @@ function totalCarrinho() {
         <img :src="produto.img" />
         <p>R$ {{ produto.preco.toFixed(2).replace('.', ',') }}</p>
         <p>Quantidade: {{ produto.quant }}</p>
-        <div class="botes">
+        <div>
           <button @click="adicionar(i)">+</button>
           <button @click="remover(i)">-</button>
           <button @click="adcCarrinho(i)">Adicionar ao carrinho</button>
@@ -143,12 +143,12 @@ function totalCarrinho() {
       <ul>
         <li v-for="(item, i) in carrinho.items" :key="item.id">
           Quantidade: {{ item.quant }}
-          <p>Produto: {{ item.nome }}: R${{ item.preco }}</p>
-          <button @click="removerDoCarrinho(i)">remover</button>
+          <p>Produto: {{ item.nome }}: R${{ item.preco.toFixed(2).replace('.', ',') }}</p>
+          <button @click="removerDoCarrinho(i)">Remover</button>
         </li>
       </ul>
-      R${{ carrinho.valorTotal.toFixed(2) }}
-      <button @click="limparCarrinho()">Limpar carrinho</button>
+      <b> Total: </b> R${{ carrinho.valorTotal.toFixed(2).replace('.', ',') }}
+      <button class="limpar" @click="limparCarrinho()">Limpar carrinho</button>
     </div>
   </div>
 </template>
@@ -265,11 +265,18 @@ li {
   border: 2px black;
   border-radius: 25px 0 25px 25px;
   box-shadow: rgba(50, 50, 93, 0.25) 3px 2px 5px 3px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-  margin: 10px 10px;
+  margin: 2px 0 10px 200px;
   padding: 10px 10px;
   width: 350px;
   font-style: normal;
   align-content: end;
   height: 500px;
+}
+.carrinho ul{
+  padding: 0;
+}
+
+.limpar{
+  float: inline-end;
 }
 </style>
